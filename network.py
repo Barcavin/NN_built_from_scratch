@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 class NeuralNetwork:
     def __init__(self,layers,Acts):
@@ -53,7 +54,7 @@ class NeuralNetwork:
 
         return nabla_w , nabla_b
 
-    def update(self,batch,learning_rate):
+    def update(self,batch,learning_rate,regular):
         """
             Helper Function: input a batch of samples. Update the weight matrices
         """
@@ -65,20 +66,21 @@ class NeuralNetwork:
             nabla_w = [ori_w+dw for ori_w, dw in zip(nabla_w, delta_w)]
             nabla_b = [ori_b+db for ori_b, db in zip(nabla_b, delta_b)]
 
-        self.weights = [w - (learning_rate/len(batch))*dw for w,dw in zip(self.weights,nabla_w)]
-        self.biases = [b - (learning_rate/len(batch))*db for b,db in zip(self.biases,nabla_b)]
+        length = len(batch)
+        self.weights = [w - learning_rate*(dw/length+regular*w) for w,dw in zip(self.weights,nabla_w)]
+        self.biases = [b - (learning_rate/length)*db for b,db in zip(self.biases,nabla_b)]
 
-    def train(self,data_train,learning_rate,epochs,batch_size,test=None):
+    def train(self,data_train,learning_rate,epochs,batch_size,regular=0,test=None):
         """
             Main model training function.
             data_train : [[x,y],[x,y],[x,y],...,] where x is [[x_1],[x_2],...,[x_28*28]]
         """
         length = len(data_train)
         for i in range(epochs):
-            # Can we shuffle the data? To bring more noise to make sure it converge to the global minimum.
+            random.shuffle(data_train)
             batch = [data_train[k:k+batch_size] for k in range(0,length,batch_size)]
             for each in batch:
-                self.update(each,learning_rate)
+                self.update(each,learning_rate,regular)
             print("Epoch {0}".format(i))
 
             if test:
