@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import pickle
 
 class NeuralNetwork:
     def __init__(self,layers,Acts):
@@ -70,7 +71,7 @@ class NeuralNetwork:
         self.weights = [w - learning_rate*(dw/length+regular*w) for w,dw in zip(self.weights,nabla_w)]
         self.biases = [b - (learning_rate/length)*db for b,db in zip(self.biases,nabla_b)]
 
-    def train(self,data_train,learning_rate,epochs,batch_size,regular=0,test=None):
+    def train(self,data_train,learning_rate,epochs,batch_size,regular=0,test=None,save=None):
         """
             Main model training function.
             data_train : [[x,y],[x,y],[x,y],...,] where x is [[x_1],[x_2],...,[x_28*28]]
@@ -85,6 +86,14 @@ class NeuralNetwork:
 
             if test:
                 print("Test accuracy: {0}".format(self.eval(test)))
+        if save:
+            with open(save,'wb') as f:
+                pickle.dump((self.layers,self.weights,self.biases,self.Activation),f)
+
+    def restore(self,save):
+        with open(save,'rb') as f:
+            self.layers,self.weights,self.biases,self.Activation =  pickle.load(f)
+        
 
     def eval(self,test):
         result = [np.argmax(self.feedforward(x))==np.argmax(y) for x,y in test]
