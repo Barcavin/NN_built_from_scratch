@@ -7,7 +7,7 @@ And I also want the network to handle different configs of the network easily.So
 ## Dataset
 We will use the classic dataset [MNIST](http://yann.lecun.com/exdb/mnist/). It contains a large database of grayscale images which is the handwritten digit. Our goal is to train a model to correctly recognize the handwritten digit (0~9).   
 
-We will not use the original dataset but a more compatible one for Python. One can download the dataset [here](http://deeplearning.net/data/mnist/mnist.pkl.gz), which is easier to use in Python. There are totally 70,000 samples, which are 50,000 for training, 10,000 for validation and 10,000 for testing. Each sample contains a 28*28 vector and a label. The 28*28 vector represents the grayscale value of the 28*28 pixels in each image. The label is the true digit which the image represents.
+We will not use the original dataset but a more compatible one for Python. One can download the dataset [here](http://deeplearning.net/data/mnist/mnist.pkl.gz), which is easier to use in Python. There are totally 70,000 samples, which are 50,000 for training, 10,000 for validation and 10,000 for testing. Each sample contains a 28x28 vector and a label. The 28x28 vector represents the grayscale value of the 28x28 pixels in each image. The label is the true digit which the image represents.
 
 
 ## Usage
@@ -21,3 +21,18 @@ import load
 train,val,test = load.load_data()
 ```
 > The formation of data is modified so it is different from the structure read directly from mnist.pkl.gz. The modified is compatible to my later function. One can use *load_data(original=True)* instead to get the original data.
+
+### activation.py
+
+The activation functions are defined here. They are all subclasses of **Activation**. One can write his own user-defined activation function here. You just need to provide the definition and derivative of your function here.
+
+```python
+class SomeFunction(Activation):
+  def result(self,x):
+    # The definition of the function
+
+  def prime(self,x):
+    # The first derivative of the function
+```
+
+### network.py
