@@ -80,3 +80,7 @@ The function to evaluate the accuracy of the model on given dataset.
 ```python
 new_network.eval(test)
 ```
+
+## Reference
+http://ufldl.stanford.edu/tutorial/supervised/MultiLayerNeuralNetworks/
+http://neuralnetworksanddeeplearning.com/chap1.html
