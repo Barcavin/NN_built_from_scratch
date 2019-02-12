@@ -12,6 +12,10 @@ We will not use the original dataset but a more compatible one for Python. One c
 
 ## Usage
 
+### Example
+
+One can simply run ```bash example.sh``` to download the dataset and run a sample code.
+
 ### load.py
 
 It contains function to load data into Python. After one downloads the [mnist.pkl.gz](http://deeplearning.net/data/mnist/mnist.pkl.gz) file in the same directory as *load.py*, call the *load_data()* function and it will return the desired train, validation and test dataset(as tuples).
