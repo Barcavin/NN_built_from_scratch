@@ -15,8 +15,7 @@ class NeuralNetwork:
     def feedforward(self,x):
         for w,b,a in zip(self.weights,self.biases,self.Activation):
             x = a.result(np.dot(w,x)+b)
-        #denominator = np.exp(np.sum(x))
-        #result = np.exp(x)/denominator
+        result = np.exp(x)/np.sum(np.exp(x))
         return x
 
     def backprop(self,x,y):
@@ -38,10 +37,11 @@ class NeuralNetwork:
             z_s.append(z)
             a_s.append(a.result(z))
 
+        y_hat = np.exp(a_s[-1])/np.sum(np.exp(a_s[-1]))
 
         #backprop
         #The calcualtion of the error term in the output layer is different from the one in the hidden layer.
-        temp_delta = -(y-a_s[-1])*self.Activation[-1].prime(z_s[-1])
+        temp_delta = -(y-y_hat)**self.Activation[-1].prime(z_s[-1])
         delta = [temp_delta] + delta
 
         nabla_w[-1] = np.dot(delta[-1],a_s[-2].transpose())
@@ -93,7 +93,7 @@ class NeuralNetwork:
     def restore(self,save):
         with open(save,'rb') as f:
             self.layers,self.weights,self.biases,self.Activation =  pickle.load(f)
-        
+
 
     def eval(self,test):
         result = [np.argmax(self.feedforward(x))==np.argmax(y) for x,y in test]
