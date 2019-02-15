@@ -87,5 +87,5 @@ new_network.eval(test)
 
 ## Reference
 http://ufldl.stanford.edu/tutorial/supervised/MultiLayerNeuralNetworks/
-http://neuralnetworksanddeeplearning.com/chap1.html
+http://neuralnetworksanddeeplearning.com/chap1.html    
 https://gormanalysis.com/neural-networks-a-worked-example/
