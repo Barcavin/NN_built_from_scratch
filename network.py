@@ -43,10 +43,7 @@ class NeuralNetwork:
         #The calcualtion of the error term in the output layer is different from the one in the hidden layer.
 
         # First, build the non-diagonal elements.
-        prime_y_hat_a_s = -np.dot(y_hat,y_hat.transpose())
-        np.fill_diagonal(prime_y_hat_a_s,0)
-        prime_y_hat_a_s = prime_y_hat_a_s + np.diag((y_hat*(1-y_hat)).squeeze())
-        temp_delta = -np.dot(prime_y_hat_a_s,(y-y_hat))*self.Activation[-1].prime(z_s[-1])
+        temp_delta = -(y-y_hat)*self.Activation[-1].prime(z_s[-1])
         delta = [temp_delta] + delta
 
         nabla_w[-1] = np.dot(delta[-1],a_s[-2].transpose())
